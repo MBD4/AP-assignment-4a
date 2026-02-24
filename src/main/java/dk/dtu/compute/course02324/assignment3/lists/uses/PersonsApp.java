@@ -1,9 +1,7 @@
 package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 
-import dk.dtu.compute.course02324.assignment3.lists.implementations.ArrayList;
-import dk.dtu.compute.course02324.assignment3.lists.implementations.SortedArrayList;
-import dk.dtu.compute.course02324.assignment3.lists.types.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -12,6 +10,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple JavaFX application with a simple GUI for manually
@@ -65,7 +65,7 @@ public class PersonsApp extends Application {
     /**
      * Methods for creating the menu bar of the application. This menu
      * bar has a single menu, where the user can change between an
-     * {@link SortedArrayList} or an {@link ArrayList} implementation
+     * {} or an {@link ArrayList} implementation
      * to be tested.
      *
      * @return the menubar for choosing the type of implementation
@@ -85,14 +85,14 @@ public class PersonsApp extends Application {
         );
         selectMenu.getItems().add(unsortedListItem);
 
-        MenuItem sortedListItem = new MenuItem("sorted List");
-        sortedListItem.setOnAction(
-                e -> {
-                    List<Person> list = new SortedArrayList<>();
-                    switchImpl(list);
-                }
-        );
-        selectMenu.getItems().add(sortedListItem);
+//        MenuItem sortedListItem = new MenuItem("sorted List");
+//        sortedListItem.setOnAction(
+//                e -> {
+//                    List<Person> list = new SortedArrayList<>();
+//                    switchImpl(list);
+//                }
+//        );
+//        selectMenu.getItems().add(sortedListItem);
 
         MenuItem noListItem = new MenuItem("No Implementation");
         noListItem.setOnAction(

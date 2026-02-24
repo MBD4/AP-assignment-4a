@@ -10,6 +10,8 @@ public class Person implements Comparable<Person> {
 
     final public double weight;
 
+    private int age;
+
     Person(@NotNull String name, @NotNull double weight) {
         if (name == null || weight <= 0) {
             throw new IllegalArgumentException("A persons must be initialized with a" +
@@ -17,6 +19,14 @@ public class Person implements Comparable<Person> {
         }
         this.name = name;
         this.weight = weight;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
@@ -44,7 +54,7 @@ public class Person implements Comparable<Person> {
         // This could be automatically generated, but this automatically
         // generated representation is a bit too verbose. Therefore, we
         // chose a simpler representation here.
-        return name + ", " + weight + "kg";
+        return name + ", " + weight + "kg" + ", age: " + age;
     }
 
     /*

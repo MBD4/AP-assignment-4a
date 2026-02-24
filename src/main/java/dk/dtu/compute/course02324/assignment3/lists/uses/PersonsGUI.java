@@ -2,7 +2,9 @@ package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 
 import dk.dtu.compute.course02324.assignment3.lists.implementations.GenericComparator;
-import dk.dtu.compute.course02324.assignment3.lists.types.List;
+//import dk.dtu.compute.course02324.assignment3.lists.types.List;
+import java.util.*;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,9 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import jakarta.validation.constraints.NotNull;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A GUI element that is allows the user to interact and
@@ -35,6 +34,10 @@ public class PersonsGUI extends GridPane {
     private Label averageWeightLabelNumber;
 
     private Label mostOccuringNameNumber;
+
+    private Label minAgeNumber;
+
+    private Label maxAgeNumber;
 
     /**
      * Constructor which sets up the GUI attached a list of persons.
@@ -69,17 +72,27 @@ public class PersonsGUI extends GridPane {
         fieldWeight.setPrefColumnCount(5);
         fieldWeight.setText("");
 
-        HBox labelTextFields = new HBox(labelFieldName, labelFieldWeight);
-        labelTextFields.setSpacing(50);
+        Label labelFieldAge = new Label("Age:");
 
-        HBox textFields = new HBox(fieldName, fieldWeight);
-        textFields.setSpacing(10);
+        TextField fieldAge = new TextField();
+        fieldAge.setPrefColumnCount(5);
+        fieldAge.setText("");
+
+        HBox labelTextFields = new HBox(labelFieldName, labelFieldWeight, labelFieldAge);
+        labelTextFields.setSpacing(40);
+
+        HBox textFields = new HBox(fieldName, fieldWeight, fieldAge);
+        textFields.setSpacing(2);
 
         Button addButton = new Button("Add at the end of the list");
         addButton.setOnAction(
                 e -> {
                     try {
                         Person person = new Person(fieldName.getText(), Double.parseDouble(fieldWeight.getText()));
+                        person.setAge(Integer.parseInt(fieldAge.getText()));
+                        if (person.getAge() < 0) {
+                            throw new IllegalArgumentException("Age cannot be negative: " + person.getAge());
+                        }
                         persons.add(person);
                     }
                     catch (IllegalArgumentException e1) {
@@ -96,6 +109,10 @@ public class PersonsGUI extends GridPane {
                   e -> {
                       try {
                           Person person = new Person(fieldName.getText(), Double.parseDouble(fieldWeight.getText()));
+                          person.setAge(Integer.parseInt(fieldAge.getText()));
+                          if (person.getAge() < 0) {
+                              throw new IllegalArgumentException("Age cannot be negative: " + person.getAge());
+                          }
                           persons.add(Integer.parseInt(fieldIndex.getText()), person);
                       }
                       catch (IllegalArgumentException e2) {
@@ -137,12 +154,18 @@ public class PersonsGUI extends GridPane {
         Label mostOccuringName = new Label("Most occuring name:");
         mostOccuringNameNumber = new Label("");
 
+        Label minAge = new Label("min age:");
+        minAgeNumber = new Label("");
+
+        Label maxAge = new Label("max age:");
+        maxAgeNumber = new Label("");
+
 
 
         // combines the above elements into vertically arranged boxes
         // which are then added to the left column of the grid pane
         VBox actionBox = new VBox(labelTextFields, textFields, addButton, hboxIndex, sortButton, clearButton,averageWeightLabel,
-                averageWeightLabelNumber, mostOccuringName, mostOccuringNameNumber);
+                averageWeightLabelNumber, mostOccuringName, mostOccuringNameNumber, minAge, minAgeNumber, maxAge, maxAgeNumber);
         actionBox.setSpacing(5.0);
         this.add(actionBox, 0, 0);
 
@@ -215,15 +238,14 @@ public class PersonsGUI extends GridPane {
             entry.setAlignment(Pos.BASELINE_LEFT);
             personsPane.add(entry, 0, i);
         }
-        // Calculate Average Weight
+
+        // Calculate Average Weight without loops:
         if (persons.size() > 0) {
-            double weightSum = 0;
-            for (int i = 0; i < persons.size(); i++) {
-                weightSum += persons.get(i).weight;
-            }
-            double averageWeight = weightSum / persons.size();
+            Optional<Double> weightSum = persons.stream().map(p -> p.weight).reduce((a, b) -> a + b);
+            double averageWeight = weightSum.orElse(0.0) / persons.size();
             averageWeightLabelNumber.setText(averageWeight + " kg");
-        } else {
+        }
+        else {
             averageWeightLabelNumber.setText("0.0 kg");
         }
 
@@ -250,6 +272,15 @@ public class PersonsGUI extends GridPane {
         else {
             mostOccuringNameNumber.setText("");
         }
+
+        // Logic for finding min and max age without using loops
+        Optional<Integer> minAge =persons.stream().map(p -> p.getAge()).reduce((a, b) -> Math.min(a,b));
+        Optional<Integer> maxAge =persons.stream().map(p -> p.getAge()).reduce((a, b) -> Math.max(a,b));
+
+        minAgeNumber.setText(String.valueOf(minAge.orElse(0)));
+        maxAgeNumber.setText(String.valueOf(maxAge.orElse(0)));
+
+
 
 
 
