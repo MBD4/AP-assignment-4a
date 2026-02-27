@@ -146,6 +146,14 @@ public class PersonsGUI extends GridPane {
                     update();
                 });
 
+        Button ageOneYearButton = new Button("Age 1 Year");
+        ageOneYearButton.setOnAction(
+                e -> {
+                    persons.stream().forEach(p -> p.setAge(p.getAge() + 1));
+                    update();
+                }
+        );
+
         Label averageWeightLabel = new Label("Average Weight:");
         averageWeightLabelNumber = new Label("");
 
@@ -162,7 +170,7 @@ public class PersonsGUI extends GridPane {
 
         // combines the above elements into vertically arranged boxes
         // which are then added to the left column of the grid pane
-        VBox actionBox = new VBox(labelTextFields, textFields, addButton, hboxIndex, sortButton, clearButton,averageWeightLabel,
+        VBox actionBox = new VBox(labelTextFields, textFields, addButton, hboxIndex, sortButton, clearButton, ageOneYearButton, averageWeightLabel,
                 averageWeightLabelNumber, mostOccuringName, mostOccuringNameNumber, minAge, minAgeNumber, maxAge, maxAgeNumber);
         actionBox.setSpacing(5.0);
         this.add(actionBox, 0, 0);
