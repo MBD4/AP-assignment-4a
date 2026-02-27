@@ -60,14 +60,10 @@ public class PersonsGUI extends GridPane {
         fieldName.setPrefColumnCount(5);
         fieldName.setText("");
 
-        // TODO for all buttons installed below, the actions need to properly
-        //      handle (catch) exceptions, and it would be nice if the GUI
-        //      could also show the exceptions thrown by user actions on
-        //      button pressed (cf. Assignment 2).
 
         // button for adding a new person to the list (based on
         // the name in the text field (the weight is just incrementing)
-        // TODO a text field for the weight could be added to this GUI
+
         Label labelFieldWeight = new Label("Weight:");
 
         TextField fieldWeight = new TextField();
