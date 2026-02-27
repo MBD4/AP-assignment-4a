@@ -4,6 +4,8 @@ package dk.dtu.compute.course02324.assignment3.lists.uses;
 import dk.dtu.compute.course02324.assignment3.lists.implementations.GenericComparator;
 //import dk.dtu.compute.course02324.assignment3.lists.types.List;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -146,6 +148,7 @@ public class PersonsGUI extends GridPane {
                     update();
                 });
 
+        // Button for increasing every person's age by one year
         Button ageOneYearButton = new Button("Age 1 Year");
         ageOneYearButton.setOnAction(
                 e -> {
@@ -258,28 +261,16 @@ public class PersonsGUI extends GridPane {
             averageWeightLabelNumber.setText("0.0 kg");
         }
 
-        // Logic for Most Occurring Name
-        Map<String, Integer> nameCount = new HashMap<>();
-        for (int i = 0; i < persons.size(); i++) {
-            String name = persons.get(i).name;
-            nameCount.put(name, nameCount.getOrDefault(name, 0) + 1);
-        }
+        // Logic for Most Occurring Name with using streams instead of loops
 
-        String mostCommonName = "";
-        int maxOccurrences = 0;
-
-        for (Map.Entry<String, Integer> entry : nameCount.entrySet()) {
-            if (entry.getValue() > maxOccurrences) {
-                maxOccurrences = entry.getValue();
-                mostCommonName = entry.getKey();
-            }
-        }
-
-        if (maxOccurrences > 0) {
-            mostOccuringNameNumber.setText(maxOccurrences + " x " +mostCommonName);
+        Map.Entry<String, Long> mostOccurringName = persons.stream()
+                .map(p -> p.name).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue()).orElse(null);
+        if (mostOccurringName == null) {
+            mostOccuringNameNumber.setText("");
         }
         else {
-            mostOccuringNameNumber.setText("");
+            mostOccuringNameNumber.setText(mostOccurringName.getKey() + " x " + mostOccurringName.getValue());
         }
 
         // Logic for finding min and max age without using loops
