@@ -151,6 +151,7 @@ public class PersonsGUI extends GridPane {
                 e -> {
                     persons.stream().forEach(p -> p.setAge(p.getAge() + 1));
                     persons.stream().filter(p -> p.getAge() > 30).forEach(p -> p.weight = p.weight * 1.08);
+                    persons.removeIf(p -> p.getAge() >= 99);
                     update();
 
                 }
