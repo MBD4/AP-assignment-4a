@@ -150,7 +150,9 @@ public class PersonsGUI extends GridPane {
         ageOneYearButton.setOnAction(
                 e -> {
                     persons.stream().forEach(p -> p.setAge(p.getAge() + 1));
+                    persons.stream().filter(p -> p.getAge() > 30).forEach(p -> p.weight = p.weight * 1.08);
                     update();
+
                 }
         );
 
