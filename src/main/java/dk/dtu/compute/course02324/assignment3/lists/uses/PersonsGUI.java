@@ -90,9 +90,6 @@ public class PersonsGUI extends GridPane {
                     try {
                         Person person = new Person(fieldName.getText(), Double.parseDouble(fieldWeight.getText()));
                         person.setAge(Integer.parseInt(fieldAge.getText()));
-                        if (person.getAge() < 0) {
-                            throw new IllegalArgumentException("Age cannot be negative: " + person.getAge());
-                        }
                         persons.add(person);
                     }
                     catch (IllegalArgumentException e1) {
@@ -109,6 +106,7 @@ public class PersonsGUI extends GridPane {
                   e -> {
                       try {
                           Person person = new Person(fieldName.getText(), Double.parseDouble(fieldWeight.getText()));
+
                           person.setAge(Integer.parseInt(fieldAge.getText()));
                           if (person.getAge() < 0) {
                               throw new IllegalArgumentException("Age cannot be negative: " + person.getAge());

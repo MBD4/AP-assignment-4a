@@ -8,7 +8,6 @@ module dk.dtu.compute.course02324.assignment3 {
     requires jakarta.validation;
     requires javafx.controls;
 
-    exports dk.dtu.compute.course02324.assignment3.lists.types;
     exports dk.dtu.compute.course02324.assignment3.lists.implementations;
     exports dk.dtu.compute.course02324.assignment3.lists.uses;
 

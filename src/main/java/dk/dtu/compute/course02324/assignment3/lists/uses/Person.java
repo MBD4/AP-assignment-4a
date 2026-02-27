@@ -26,7 +26,12 @@ public class Person implements Comparable<Person> {
     }
 
     public void setAge(int age) {
-        this.age = age;
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cant be negative");
+        }
+        else {
+            this.age = age;
+        }
     }
 
     @Override
